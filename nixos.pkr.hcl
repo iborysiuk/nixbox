@@ -171,7 +171,7 @@ source "qemu" "qemu-efi" {
 source "virtualbox-iso" "virtualbox" {
   boot_command         = [
     "mkdir -m 0700 .ssh<enter>",
-    "echo '{{ .SSHPublicKey }}' > .ssh/authorized_keys<enter>",
+    "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/install_ed25519.pub > .ssh/authorized_keys<enter>",
     "sudo systemctl start sshd<enter>"
   ]
   boot_wait            = "45s"
@@ -194,7 +194,7 @@ source "virtualbox-iso" "virtualbox" {
 source "virtualbox-iso" "virtualbox-efi" {
   boot_command         = [
     "mkdir -m 0700 .ssh<enter>",
-    "echo '{{ .SSHPublicKey }}' > .ssh/authorized_keys<enter>",
+    "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/install_ed25519.pub > .ssh/authorized_keys<enter>",
     "sudo systemctl start sshd<enter>"
   ]
   boot_wait            = "55s"
