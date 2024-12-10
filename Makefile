@@ -1,7 +1,7 @@
 BUILDER ?= virtualbox-iso.virtualbox
-VERSION ?= 23.05
-ARCH ?= x86_64
-REPO ?= nixbox/nixos
+VERSION ?= 24.11
+ARCH ?= aarch64
+REPO ?= zorrahomecloud/nixos
 USE_EFI ?= false
 REPO_NAME = $(word 1, $(subst /, ,${REPO}))
 BOX_NAME = $(word 2, $(subst /, ,${REPO}))
@@ -67,7 +67,7 @@ vagrantcloud-create: ## Create Vagrant Cloud box
 	--header "Content-Type: application/json" \
 	--header "Authorization: Bearer ${ATLAS_TOKEN}" \
 	https://app.vagrantup.com/api/v2/boxes \
-	--data '{ "box": { "username": "'"${REPO_NAME}"'", "name": "'"${BOX_NAME}"'", "is_private": false } }'
+	--data '{ "box": { "username": "'"${REPO_NAME}"'", "name": "'"${BOX_NAME}"'", "is_private": true } }'
 
 vagrantcloud-delete: ## Delete old Vagrant Cloud box
 	@curl \
