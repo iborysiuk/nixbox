@@ -1,7 +1,7 @@
 BUILDER ?= virtualbox-iso.virtualbox
-VERSION ?= 23.05
-ARCH ?= x86_64
-REPO ?= nixbox/nixos
+VERSION ?= 24.11
+ARCH ?= aarch64
+REPO ?= zorrahomecloud/nixos
 USE_EFI ?= false
 REPO_NAME = $(word 1, $(subst /, ,${REPO}))
 BOX_NAME = $(word 2, $(subst /, ,${REPO}))
@@ -33,6 +33,7 @@ build: nixos.pkr.hcl version ## [BUILDER] [ARCH] [VERSION] Build packer image
 build-all: ## [BUILDER] [VERSION] Build packer image
 	@${MAKE} BUILDER=${BUILDER} VERSION=${VERSION} ARCH=x86_64 build
 	@${MAKE} BUILDER=${BUILDER} VERSION=${VERSION} ARCH=i686 build
+	@${MAKE} BUILDER=${BUILDER} VERSION=${VERSION} ARCH=aarch64 build
 
 vagrant-plugin:
 	@vagrant plugin list | grep vagrant-nixos-plugin || vagrant plugin install vagrant-nixos-plugin
@@ -67,7 +68,7 @@ vagrantcloud-create: ## Create Vagrant Cloud box
 	--header "Content-Type: application/json" \
 	--header "Authorization: Bearer ${ATLAS_TOKEN}" \
 	https://app.vagrantup.com/api/v2/boxes \
-	--data '{ "box": { "username": "'"${REPO_NAME}"'", "name": "'"${BOX_NAME}"'", "is_private": false } }'
+	--data '{ "box": { "username": "'"${REPO_NAME}"'", "name": "'"${BOX_NAME}"'", "is_private": true } }'
 
 vagrantcloud-delete: ## Delete old Vagrant Cloud box
 	@curl \
@@ -81,7 +82,7 @@ vagrantcloud-update: ## Create Vagrant Cloud box
 	--header "Content-Type: application/json" \
 	--header "Authorization: Bearer ${ATLAS_TOKEN}" \
 	"https://app.vagrantup.com/api/v2/box/${REPO}" \
-	--data '{ "box": { "username": "'"${REPO_NAME}"'", "name": "'"${BOX_NAME}"'", "is_private": false } }'
+	--data '{ "box": { "username": "'"${REPO_NAME}"'", "name": "'"${BOX_NAME}"'", "is_private": true } }'
 
 packer-build:  nixos.pkr.hcl version ##Use packer push to vagrant-cloud
 	packer init $<
