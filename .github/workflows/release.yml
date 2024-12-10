@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        BUILDER: ['vmware-iso.vmware']
+        BUILDER: ['virtualbox-iso.virtualbox']
         ARCH: ['aarch64']
     steps:
     - uses: actions/checkout@v3
