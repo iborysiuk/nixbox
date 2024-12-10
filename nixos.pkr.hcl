@@ -185,6 +185,8 @@ source "virtualbox-iso" "virtualbox" {
   iso_url              = local.iso_url
   shutdown_command     = "sudo shutdown -h now"
   ssh_port             = 22
+  ssh_private_key_file = "./scripts/install_ed25519"
+  ssh_timeout          = "1h"
   ssh_username         = "nixos"
   vboxmanage           = [["modifyvm", "{{ .Name }}", "--memory", var.memory, "--vram", "128", "--clipboard", "bidirectional"]]
 }
@@ -207,6 +209,8 @@ source "virtualbox-iso" "virtualbox-efi" {
   iso_interface        = "sata"
   shutdown_command     = "sudo shutdown -h now"
   ssh_port             = 22
+  ssh_private_key_file = "./scripts/install_ed25519"
+  ssh_timeout          = "1h"
   ssh_username         = "nixos"
   vboxmanage           = [["modifyvm", "{{ .Name }}", "--memory", var.memory, "--vram", "128", "--clipboard", "bidirectional", "--firmware", "EFI"]]
 }
